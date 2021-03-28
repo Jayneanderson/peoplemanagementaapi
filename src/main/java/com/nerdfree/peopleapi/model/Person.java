@@ -10,6 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,16 +33,23 @@ public class Person {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotBlank
+	@Length(min = 2, max = 45) //pode usar size tbm, mas length é mais genérico
 	private String firstName;
 	
 	@Column(nullable = false)
+	@Length(min = 2, max = 45) //pode usar size tbm, mas length é mais genérico
 	private String lastName;
 	
 	@Column(nullable = false, unique = true)
+	@CPF
 	private String cpf;
 	
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private String birthDate;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@NotBlank
+	@Valid //serve para indicar que cada telefone passado será validado
 	private List<Phone> phones;
 }

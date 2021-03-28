@@ -7,6 +7,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.nerdfree.peopleapi.enums.PhoneType;
 
@@ -31,5 +35,7 @@ public class Phone {
 	private PhoneType type;
 	
 	@Column(nullable = false)
+	@NotBlank
+	@Length(min = 13, max = 14, message = "O telefone deve ter 13 ou 14 caracteres") //pode usar size tbm, mas length é mais genérico
 	private String number;
 }

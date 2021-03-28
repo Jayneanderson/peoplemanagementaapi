@@ -2,6 +2,8 @@ package com.nerdfree.peopleapi.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +33,7 @@ public class PersonController {
 	
 	//a anotação @RequestBody faz entender que receberemos um objeto do tipo pessoa a partir de uma requisição
 	@PostMapping("/addperson")
-	public String createPerson(@RequestBody Person person) {
+	public String createPerson(@RequestBody @Valid Person person) {
 		return personService.createPerson(person);
 	}
 
