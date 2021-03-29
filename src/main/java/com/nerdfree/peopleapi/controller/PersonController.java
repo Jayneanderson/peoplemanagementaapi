@@ -6,11 +6,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nerdfree.peopleapi.exception.PersonNotFoundException;
 import com.nerdfree.peopleapi.model.Person;
 import com.nerdfree.peopleapi.service.PersonService;
 
@@ -28,13 +30,18 @@ public class PersonController {
 	
 	@GetMapping
 	public List<Person> getPeople() {
-		return personService.getAllPeople();
+		return personService.findAllPeople();
 	}
 	
 	//a anotação @RequestBody faz entender que receberemos um objeto do tipo pessoa a partir de uma requisição
 	@PostMapping("/addperson")
 	public String createPerson(@RequestBody @Valid Person person) {
 		return personService.createPerson(person);
+	}
+	
+	@GetMapping("/{idperson}") //a propriedade é parecida com RB, pois diz que que será pego por um HTTP
+	public Person getPersonById(@PathVariable("idperson") Long id) throws PersonNotFoundException {
+		return personService.findPersonById(id);
 	}
 
 }

@@ -34,11 +34,11 @@ public class Person {
 	
 	@Column(nullable = false)
 	@NotBlank
-	@Length(min = 2, max = 45) //pode usar size tbm, mas length é mais genérico
+	@Length(min = 2, max = 45, message = "O nome deve estar entre 2 - 45") //pode usar size tbm, mas length é mais genérico
 	private String firstName;
 	
 	@Column(nullable = false)
-	@Length(min = 2, max = 45) //pode usar size tbm, mas length é mais genérico
+	@Length(min = 2, max = 45, message = "O sobrenome deve estar entre 2 - 45") //pode usar size tbm, mas length é mais genérico
 	private String lastName;
 	
 	@Column(nullable = false, unique = true)
@@ -49,7 +49,6 @@ public class Person {
 	private String birthDate;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@NotBlank
 	@Valid //serve para indicar que cada telefone passado será validado
 	private List<Phone> phones;
 }

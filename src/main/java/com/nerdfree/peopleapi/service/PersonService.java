@@ -1,11 +1,12 @@
 package com.nerdfree.peopleapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
+import com.nerdfree.peopleapi.exception.PersonNotFoundException;
 import com.nerdfree.peopleapi.model.Person;
 import com.nerdfree.peopleapi.repository.PersonRepository;
 
@@ -19,14 +20,24 @@ private PersonRepository personRepository;
 		this.personRepository = personRepository;
 	}	
 	
-	@PostMapping("/addperson")
 	public String createPerson(Person person) {
 		Person savedPerson = personRepository.save(person);
 		return "Pessoa salva com ID: " + savedPerson.getId();
 	}
 
-	public List<Person> getAllPeople() {
+	public List<Person> findAllPeople() {
 		return personRepository.findAll();
+	}
+	
+	public Person findPersonById(Long id) throws PersonNotFoundException {
+//		Optional<Person> optionalPerson = personRepository.findById(id);
+//		if(optionalPerson.isEmpty()) {
+//			throw new PersonNotFoundException(id);
+//		}
+		
+		//esta é uma versão resumida do código acima
+		return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+		
 	}
 	
 }

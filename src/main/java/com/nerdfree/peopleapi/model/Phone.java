@@ -33,9 +33,9 @@ public class Phone {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private PhoneType type;
-	
+
 	@Column(nullable = false)
 	@NotBlank
-	@Length(min = 13, max = 14, message = "O telefone deve ter 13 ou 14 caracteres") //pode usar size tbm, mas length é mais genérico
+	@Length(min = 11, max = 14, message = "Tamanho do telefone 11 - 14") //pode usar size tbm, mas length é mais genérico
 	private String number;
 }
