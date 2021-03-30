@@ -36,8 +36,18 @@ private PersonRepository personRepository;
 //		}
 		
 		//esta é uma versão resumida do código acima
+		return isExists(id);
+	}
+	
+	
+	public void deletPerson(Long id) throws PersonNotFoundException {// código 200 e 204 (no content)
+		isExists(id);
+		personRepository.deleteById(id);
+	}
+
+	
+	private Person isExists(Long id) throws PersonNotFoundException {
 		return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
-		
 	}
 	
 }

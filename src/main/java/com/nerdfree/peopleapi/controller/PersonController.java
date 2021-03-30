@@ -5,11 +5,14 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nerdfree.peopleapi.exception.PersonNotFoundException;
@@ -39,9 +42,15 @@ public class PersonController {
 		return personService.createPerson(person);
 	}
 	
-	@GetMapping("/{idperson}") //a propriedade é parecida com RB, pois diz que que será pego por um HTTP
-	public Person getPersonById(@PathVariable("idperson") Long id) throws PersonNotFoundException {
+	@GetMapping("/{id}") //a propriedade é parecida com RB, pois diz que que será pego por um HTTP
+	public Person getPersonById(@PathVariable("id") Long id) throws PersonNotFoundException { 
 		return personService.findPersonById(id);
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletePerson(@PathVariable("id")Long id) throws PersonNotFoundException {
+		personService.deletPerson(id);
 	}
 
 }
