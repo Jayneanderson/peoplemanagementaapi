@@ -1,19 +1,19 @@
 package com.nerdfree.peopleapi.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nerdfree.peopleapi.exception.PersonNotFoundException;
 import com.nerdfree.peopleapi.model.Person;
+import com.nerdfree.peopleapi.model.Phone;
 import com.nerdfree.peopleapi.repository.PersonRepository;
 
 @Service //significa que o Spring irá tratar uma classe de serviço (regras de negócio)
 public class PersonService{
 	
-private PersonRepository personRepository;
+	private PersonRepository personRepository;
 	
 	@Autowired //Spring, injeta uma implementação do contrato do personRepository aqui para mim
 	public PersonService(PersonRepository personRepository) {//dentro do construtor facilita na criação de testes unitários
@@ -44,11 +44,11 @@ private PersonRepository personRepository;
 		personRepository.deleteById(id);
 	}
 
-	public String updataById(Long id, Person person) throws PersonNotFoundException {
+	public String updateById(Long id, Person person) throws PersonNotFoundException {
 		isExists(id);
-		
-		Person personUpdated = personRepository.save(person);
-		return "Pessoa atualizada com ID: " + personUpdated.getId();
+		person.setId(id);
+		personRepository.save(person);
+		return "Pessoa atualizada com ID: " + person.getId();
 	}
 	
 	private Person isExists(Long id) throws PersonNotFoundException {

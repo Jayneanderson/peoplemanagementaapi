@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nerdfree.peopleapi.exception.PersonNotFoundException;
 import com.nerdfree.peopleapi.model.Person;
+import com.nerdfree.peopleapi.model.Phone;
 import com.nerdfree.peopleapi.service.PersonService;
 
 
@@ -50,11 +51,7 @@ public class PersonController {
 	
 	@PutMapping("/{id}")
 	public String updatePerson(@PathVariable  Long id, @RequestBody Person person) throws PersonNotFoundException {	
-		
-		personService.updataById(id, person);		
-		
-		personService.savePerson(person);
-		return "";
+		return personService.updateById(id, person);		
 	}
 	
 	@DeleteMapping("/{id}")
