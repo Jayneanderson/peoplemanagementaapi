@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -39,12 +40,21 @@ public class PersonController {
 	//a anotação @RequestBody faz entender que receberemos um objeto do tipo pessoa a partir de uma requisição
 	@PostMapping("/addperson")
 	public String createPerson(@RequestBody @Valid Person person) {
-		return personService.createPerson(person);
+		return personService.savePerson(person);
 	}
 	
 	@GetMapping("/{id}") //a propriedade é parecida com RB, pois diz que que será pego por um HTTP
 	public Person getPersonById(@PathVariable("id") Long id) throws PersonNotFoundException { 
 		return personService.findPersonById(id);
+	}
+	
+	@PutMapping("/{id}")
+	public String updatePerson(@PathVariable  Long id, @RequestBody Person person) throws PersonNotFoundException {	
+		
+		personService.updataById(id, person);		
+		
+		personService.savePerson(person);
+		return "";
 	}
 	
 	@DeleteMapping("/{id}")

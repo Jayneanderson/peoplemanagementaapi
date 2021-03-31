@@ -20,7 +20,7 @@ private PersonRepository personRepository;
 		this.personRepository = personRepository;
 	}	
 	
-	public String createPerson(Person person) {
+	public String savePerson(Person person) {
 		Person savedPerson = personRepository.save(person);
 		return "Pessoa salva com ID: " + savedPerson.getId();
 	}
@@ -39,12 +39,17 @@ private PersonRepository personRepository;
 		return isExists(id);
 	}
 	
-	
 	public void deletPerson(Long id) throws PersonNotFoundException {// código 200 e 204 (no content)
 		isExists(id);
 		personRepository.deleteById(id);
 	}
 
+	public String updataById(Long id, Person person) throws PersonNotFoundException {
+		isExists(id);
+		
+		Person personUpdated = personRepository.save(person);
+		return "Pessoa atualizada com ID: " + personUpdated.getId();
+	}
 	
 	private Person isExists(Long id) throws PersonNotFoundException {
 		return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
