@@ -1,8 +1,8 @@
 package com.nerdfree.peopleapi.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,10 +45,10 @@ private PersonRepository personRepository;
 	}
 
 	public String updataById(Long id, Person person) throws PersonNotFoundException {
-		isExists(id);
-		
-		Person personUpdated = personRepository.save(person);
-		return "Pessoa atualizada com ID: " + personUpdated.getId();
+		Person savedPerson = isExists(id);
+		BeanUtils.copyProperties(person, savedPerson, "id");
+		personRepository.save(savedPerson);
+		return "Pessoa atualizada com ID: " + savedPerson.getId();
 	}
 	
 	private Person isExists(Long id) throws PersonNotFoundException {

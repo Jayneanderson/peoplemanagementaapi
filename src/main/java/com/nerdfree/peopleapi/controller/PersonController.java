@@ -23,6 +23,7 @@ import com.nerdfree.peopleapi.service.PersonService;
 
 @RestController
 @RequestMapping("/api/v1/people")
+
 public class PersonController {
 	
 	private PersonService personService;
@@ -51,10 +52,7 @@ public class PersonController {
 	@PutMapping("/{id}")
 	public String updatePerson(@PathVariable  Long id, @RequestBody Person person) throws PersonNotFoundException {	
 		
-		personService.updataById(id, person);		
-		
-		personService.savePerson(person);
-		return "";
+		return personService.updataById(id, person);		
 	}
 	
 	@DeleteMapping("/{id}")
