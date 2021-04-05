@@ -20,9 +20,8 @@ private PersonRepository personRepository;
 		this.personRepository = personRepository;
 	}	
 	
-	public String savePerson(Person person) {
-		Person savedPerson = personRepository.save(person);
-		return "Pessoa salva com ID: " + savedPerson.getId();
+	public Person savePerson(Person person) {
+		return personRepository.save(person);
 	}
 
 	public List<Person> findAllPeople() {

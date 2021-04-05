@@ -1,11 +1,13 @@
 package com.nerdfree.peopleapi.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nerdfree.peopleapi.exception.PersonNotFoundException;
 import com.nerdfree.peopleapi.model.Person;
@@ -33,30 +36,37 @@ public class PersonController {
 		this.personService = personService;
 	}	
 	
-	@GetMapping
-	public List<Person> getPeople() {
-		return personService.findAllPeople();
+	@GetMapping()
+	public ResponseEntity<List<Person>> getPeople() {
+		return ResponseEntity.ok(personService.findAllPeople());
 	}
 	
 	//a anotação @RequestBody faz entender que receberemos um objeto do tipo pessoa a partir de uma requisição
 	@PostMapping("/addperson")
-	public String createPerson(@RequestBody @Valid Person person) {
-		return personService.savePerson(person);
+	public ResponseEntity<String> createPerson(@RequestBody @Valid Person person) {
+		Person savedPerson = personService.savePerson(person);
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentContextPath()
+				.path("/{id}")
+				.buildAndExpand(person.getId())
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@GetMapping("/{id}") //a propriedade é parecida com RB, pois diz que que será pego por um HTTP
-	public Person getPersonById(@PathVariable("id") Long id) throws PersonNotFoundException { 
-		return personService.findPersonById(id);
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<Person> getPersonById(@PathVariable("id") Long id) throws PersonNotFoundException { 
+		return ResponseEntity.ok(personService.findPersonById(id));
 	}
 	
 	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public String updatePerson(@PathVariable  Long id, @RequestBody Person person) throws PersonNotFoundException {	
-		
 		return personService.updataById(id, person);		
 	}
 	
 	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void deletePerson(@PathVariable("id")Long id) throws PersonNotFoundException {
 		personService.deletPerson(id);
 	}

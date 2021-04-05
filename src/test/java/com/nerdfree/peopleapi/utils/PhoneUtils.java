@@ -9,7 +9,7 @@ public class PhoneUtils {
 	private final static PhoneType PHONE_TYPE = PhoneType.MOBILE;
 	private final static String PHONE_NUMBER = "75983101948";
 
-	public static Phone createFakeEntity() {
+	public static Phone criarTelefoneFake() {
 
 		return Phone.builder()
 				.id(PHONE_ID)

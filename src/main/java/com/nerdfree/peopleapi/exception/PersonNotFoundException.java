@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PersonNotFoundException extends Exception {
 	
 	public PersonNotFoundException(Long id) {
-		super("Pessoa não encontrada pelo id: " + id);
+		super(String.format("Pessoa com ID %s não encontrada!", id));
 		
 	}
 	
