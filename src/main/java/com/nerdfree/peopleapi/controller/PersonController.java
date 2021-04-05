@@ -48,7 +48,7 @@ public class PersonController {
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
 				.path("/{id}")
-				.buildAndExpand(person.getId())
+				.buildAndExpand(savedPerson.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
